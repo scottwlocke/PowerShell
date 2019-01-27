@@ -17,7 +17,7 @@ $InstallerArgs = @{
         "/qb!",
         "/norestart",
         "/l*v",
-        '"C:\Temp\alkane_install_log.log"'
+        '"C:\Temp\Application_install_log.log"'
     )
     Wait = $True
 }
