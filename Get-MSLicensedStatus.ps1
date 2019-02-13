@@ -1,3 +1,6 @@
+
+# https://docs.microsoft.com/en-us/previous-versions/windows/desktop/sppwmi/softwarelicensingproduct
+# There are quite a few properties and methods that could be utilized
 Function Get-MSLicensedStatus {
     [CmdletBinding()]
     param(
