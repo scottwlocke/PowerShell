@@ -14,11 +14,11 @@ Function Get-MSLicensedStatus {
     Begin {
         #Fallback option to DCOM if WSMAN not configured
         $Opt = New-CimSessionOption -Protocol Dcom
-
+        #Needed for the Try Catch when making WSMAN and DCOM connections
         $SessionParams = @{
             ErrorAction = 'Stop'
         }
-
+        #Check if a Credential was sent in
         If ($PSBoundParameters['Credential']) {
             $SessionParams.Credential = $Credential
         }
@@ -49,6 +49,7 @@ Function Get-MSLicensedStatus {
             }
  
             else {
+                #Change from a WSMAN connection to DCOM
                 $SessionParams.SessionOption = $Opt
  
                 try {
@@ -61,7 +62,8 @@ Function Get-MSLicensedStatus {
             }
             # Pull license information from CIMSession  
             Get-CimInstance -CimSession $Session -ClassName SoftwareLicensingProduct -Filter "PartialProductKey IS NOT NULL" | Select-Object Name, ApplicationId, @{N = 'LicenseStatus'; E = {[LicenseStatus]$_.LicenseStatus} }
-            Remove-CimSession -CimSession $Session
+            Remove-CimSession -CimSession $Session -ErrorAction SilentlyContinue
+            #Clear Decom Flag
             $SessionParams.Remove('SessionOption')
         }
     }
