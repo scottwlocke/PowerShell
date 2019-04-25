@@ -10,8 +10,9 @@
     }
 '@ | Set-Content -Path .\example.psd1
 
-# Read the file
-Import-LocalizedData -BaseDirectory .\path -FileName example.psd1 -BindingVariable Data
+# Read the file, put into Data variable
+Import-LocalizedData  -FileName example.psd1 -BindingVariable Data
+
 
 # Use the data
 $Data.a1
