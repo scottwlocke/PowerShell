@@ -11,7 +11,7 @@ Function Get-MSLicensedStatus {
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
-        $Credential = [System.Management.Automation.PSCredential]::Empty 
+        $Credential = [System.Management.Automation.PSCredential]::Empty
     )
 
     Begin {
@@ -50,11 +50,11 @@ Function Get-MSLicensedStatus {
                     Write-Warning -Message "Unable to connect to $Computer using the WSMAN protocol. Verify your credentials and try again."
                 }
             }
- 
+
             else {
                 #Change from a WSMAN connection to DCOM
                 $SessionParams.SessionOption = $Opt
- 
+
                 try {
                     Write-Verbose -Message "Attempting to connect to $Computer using the DCOM protocol."
                     $Session = New-CimSession @SessionParams
@@ -63,7 +63,7 @@ Function Get-MSLicensedStatus {
                     Write-Warning -Message "Unable to connect to $Computer using the WSMAN or DCOM protocol. Verify $Computer is online and try again."
                 }
             }
-            # Pull license information from CIMSession  
+            # Pull license information from CIMSession
             Get-CimInstance -CimSession $Session -ClassName SoftwareLicensingProduct -Filter "PartialProductKey IS NOT NULL" | Select-Object Name, ApplicationId, @{N = 'LicenseStatus'; E = {[LicenseStatus]$_.LicenseStatus} }
             Remove-CimSession -CimSession $Session -ErrorAction SilentlyContinue
             #Clear Decom Flag
