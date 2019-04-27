@@ -11,4 +11,3 @@ Catch [System.Net.WebException] {
     # Be nice set it back to waht it was before we changed it
     [Net.ServicePointManager]::SecurityProtocol = $secProtocol
 }
- 
